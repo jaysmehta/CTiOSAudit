@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		77A4AEFA24E3E3D800F93D24 /* CTiOSAudit.h in Headers */ = {isa = PBXBuildFile; fileRef = 77A4AEF824E3E3D800F93D24 /* CTiOSAudit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		77A4AF0124E3E3E800F93D24 /* CTiOSAudit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77A4AF0024E3E3E800F93D24 /* CTiOSAudit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		77A4AEF524E3E3D800F93D24 /* CTiOSAudit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CTiOSAudit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		77A4AEF824E3E3D800F93D24 /* CTiOSAudit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CTiOSAudit.h; sourceTree = "<group>"; };
 		77A4AEF924E3E3D800F93D24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		77A4AF0024E3E3E800F93D24 /* CTiOSAudit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTiOSAudit.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,6 +50,7 @@
 			children = (
 				77A4AEF824E3E3D800F93D24 /* CTiOSAudit.h */,
 				77A4AEF924E3E3D800F93D24 /* Info.plist */,
+				77A4AF0024E3E3E800F93D24 /* CTiOSAudit.swift */,
 			);
 			path = CTiOSAudit;
 			sourceTree = "<group>";
@@ -95,6 +98,7 @@
 				TargetAttributes = {
 					77A4AEF424E3E3D800F93D24 = {
 						CreatedOnToolsVersion = 11.4.1;
+						LastSwiftMigration = 1140;
 					};
 				};
 			};
@@ -131,6 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77A4AF0124E3E3E800F93D24 /* CTiOSAudit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +193,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -245,7 +250,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -260,6 +265,7 @@
 		77A4AEFE24E3E3D800F93D24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7XM67G79YA;
@@ -268,6 +274,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CTiOSAudit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -276,6 +283,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.JM.CTiOSAudit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -284,6 +293,7 @@
 		77A4AEFF24E3E3D800F93D24 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 7XM67G79YA;
@@ -292,6 +302,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = CTiOSAudit/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,6 +311,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.JM.CTiOSAudit;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
