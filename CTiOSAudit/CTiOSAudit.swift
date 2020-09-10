@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class CTiOSAudit {
+open class CTiOSAudit {
     
     var chckSDKVersion = true ,chckCTID = true
     var eventsData : [[String : AnyObject]] = [[:]]
