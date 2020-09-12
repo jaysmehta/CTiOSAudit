@@ -10,7 +10,7 @@ Then run pod install
 
 import CTiOSAudit module in AppDelegate file. Initialise the SDK and call start Audit method before autoIntegrate() method.
 
-let ctAudit = CTiOSAudit()
+let ctAudit = CTAudit()
 
 ctAudit.startAudit()
 
