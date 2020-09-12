@@ -60,6 +60,8 @@ open class CTiOSAudit {
                 writeDataToFile(data: strTemp)
             }else if logs.contains("Initializing"){
                 checkForSDKInitialise(dataLogs: logs)
+            }else if logs.contains("registering APNs device token"){
+                checkForPN(dataLogs: logs)
             }else if logs.contains("onUserLogin"){
                 writeDataToFile(data: "***IDENTITY MANAGEMENT***\n")
                 writeDataToFile(data: "onUserLogin() method is used to push profile details\n\n")
@@ -73,6 +75,13 @@ open class CTiOSAudit {
                 
             }
         }
+    }
+    
+    func checkForPN(dataLogs : String){
+        let tempArr = dataLogs.components(separatedBy: "token ")
+        let strTemp = "\(tempArr[1])\n\n"
+        writeDataToFile(data: "***Push Token Generated***\n")
+        writeDataToFile(data: strTemp)
     }
     
     func checkForSDKInitialise(dataLogs : String) {
