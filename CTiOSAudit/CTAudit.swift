@@ -10,7 +10,7 @@ import Foundation
 
 open class CTAudit {
     
-    var chckSDKVersion = true ,chckCTID = true
+    var chckSDKVersion = true ,chckCTID = true, onUserLogin = false, chckAutoIntegrate = true, chckInitialisation = true, checkIdentity = true, chckPN = true
     var eventsData : [[String : AnyObject]] = [[:]]
     var profileDetailsArray : [String : AnyObject] = [:]
     
@@ -22,7 +22,7 @@ open class CTAudit {
     }
     
     public func startAudit(){
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0, execute: {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 60.0, execute: {
             self.getDataLogs()
         })
     }
@@ -37,8 +37,17 @@ open class CTAudit {
                 let filteredArray = arrayOfLines.filter {$0.contains("[CleverTap]:")}
                 writeDataToFile(data: "AUDIT REPORT\n\n")
                 pasrseLogs(dataLogs: filteredArray)
-                writeDataToFile(data: "***PROFILE DETAILS PASSED WITH ONUSERLOGIN***\n")
-                writeProfileDeatilsToFile()
+                
+                if profileDetailsArray.count > 1{
+                    if onUserLogin{
+                        writeDataToFile(data: "***PROFILE DETAILS PASSED WITH ONUSERLOGIN***\n")
+                        writeProfileDeatilsToFile()
+                    }else{
+                        writeDataToFile(data: "***PROFILE DETAILS PASSED WITH PUSHPROFILE***\n")
+                        writeProfileDeatilsToFile()
+                    }
+                }
+                
                 writeDataToFile(data: "\n***ACTIVITY***\n")
                 writeEventDataToFile()
                 let file = FileManager.default
@@ -54,17 +63,30 @@ open class CTAudit {
         eventsData.removeAll()
         for logs in dataLogs{
             if logs.contains("Auto Integration enabled"){
-                let tempArr = logs.components(separatedBy: "[CleverTap]: ")
-                let strTemp = "\(tempArr[1])\n\n"
-                writeDataToFile(data: "***AUTO INTEGRATE***\n")
-                writeDataToFile(data: strTemp)
+                if chckAutoIntegrate{
+                    chckAutoIntegrate = false
+                    let tempArr = logs.components(separatedBy: "[CleverTap]: ")
+                    let strTemp = "\(tempArr[1])\n\n"
+                    writeDataToFile(data: "***AUTO INTEGRATE***\n")
+                    writeDataToFile(data: strTemp)
+                }
             }else if logs.contains("Initializing"){
-                checkForSDKInitialise(dataLogs: logs)
+                if chckInitialisation{
+                    chckInitialisation = false
+                    checkForSDKInitialise(dataLogs: logs)
+                }
             }else if logs.contains("registering APNs device token"){
-                checkForPN(dataLogs: logs)
+                if chckPN{
+                    chckPN = false
+                    checkForPN(dataLogs: logs)
+                }
             }else if logs.contains("onUserLogin"){
-                writeDataToFile(data: "***IDENTITY MANAGEMENT***\n")
-                writeDataToFile(data: "onUserLogin() method is used to push profile details\n\n")
+                if checkIdentity{
+                    checkIdentity = false
+                    onUserLogin = true
+                    writeDataToFile(data: "***IDENTITY MANAGEMENT***\n")
+                    writeDataToFile(data: "onUserLogin() method is used to push profile details\n\n")
+                }
             }else if logs.contains("Sending"){
                 if(chckSDKVersion && chckCTID){
                     checkForEventData(dataLogs: logs)
@@ -150,19 +172,21 @@ open class CTAudit {
 //                print("\(key) : \(value)")
 //            }
         }else{
-            print("Event Triggered : ",dataLogs?["evtName"] as! String)
-            let tempArr = dataLogs?["evtData"] as! [String:AnyObject]
-            print("Properties :")
-            if tempArr.count == 0{
-                print("No properties passed")
-            }
-            var strTemp = ""
-            for (key,value) in tempArr {
-                strTemp.append("\(key) : \(value) | ")
-            }
-            strTemp = String(strTemp.dropLast().dropLast())
-            print(strTemp)
-            eventsData.append([dataLogs?["evtName"] as! String : strTemp as AnyObject])
+            if let eventName = dataLogs?["evtName"] as? String {
+                    print("Event Triggered : ",eventName)
+                    let tempArr = dataLogs?["evtData"] as! [String:AnyObject]
+                    print("Properties :")
+                    if tempArr.count == 0{
+                        print("No properties passed")
+                    }
+                    var strTemp = ""
+                    for (key,value) in tempArr {
+                        strTemp.append("\(key) : \(value) | ")
+                    }
+                    strTemp = String(strTemp.dropLast().dropLast())
+                    print(strTemp)
+                    eventsData.append([dataLogs?["evtName"] as! String : strTemp as AnyObject])
+                }
         }
         
     }
