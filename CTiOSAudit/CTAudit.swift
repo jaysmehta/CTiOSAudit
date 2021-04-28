@@ -16,9 +16,9 @@ open class CTAudit {
     
     public init(){
         if let documentsPathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
-                    let logPath = documentsPathString.appending("/app.txt")
-                    freopen(logPath.cString(using: String.Encoding.ascii),"a+",stderr)
-                }
+            let logPath = documentsPathString.appending("/app.txt")
+            freopen(logPath.cString(using: String.Encoding.ascii),"a+",stderr)
+        }
     }
     
     public func startAudit(){
@@ -122,7 +122,7 @@ open class CTAudit {
         chckSDKVersion = false
         writeDataToFile(data: "***METADATA***\n")
         writeDataToFile(data: strTemp)
-
+        
     }
     
     
@@ -160,7 +160,7 @@ open class CTAudit {
         }
         
         
-
+        
     }
     
     func checkForEvents(dataLogs : [String:AnyObject]?){
@@ -168,25 +168,22 @@ open class CTAudit {
             let tempArr = dataLogs?["profile"] as! [String:AnyObject]
             profileDetailsArray.removeAll()
             profileDetailsArray = tempArr
-//            for (key,value) in tempArr {
-//                print("\(key) : \(value)")
-//            }
         }else{
             if let eventName = dataLogs?["evtName"] as? String {
-                    print("Event Triggered : ",eventName)
-                    let tempArr = dataLogs?["evtData"] as! [String:AnyObject]
-                    print("Properties :")
-                    if tempArr.count == 0{
-                        print("No properties passed")
-                    }
-                    var strTemp = ""
-                    for (key,value) in tempArr {
-                        strTemp.append("\(key) : \(value) | ")
-                    }
-                    strTemp = String(strTemp.dropLast().dropLast())
-                    print(strTemp)
-                    eventsData.append([dataLogs?["evtName"] as! String : strTemp as AnyObject])
+                print("Event Triggered : ",eventName)
+                let tempArr = dataLogs?["evtData"] as! [String:AnyObject]
+                print("Properties :")
+                if tempArr.count == 0{
+                    print("No properties passed")
                 }
+                var strTemp = ""
+                for (key,value) in tempArr {
+                    strTemp.append("\(key) : \(value) | ")
+                }
+                strTemp = String(strTemp.dropLast().dropLast())
+                print(strTemp)
+                eventsData.append([dataLogs?["evtName"] as! String : strTemp as AnyObject])
+            }
         }
         
     }
@@ -211,7 +208,7 @@ open class CTAudit {
         let fileName = "AuditReport"
         let strData = data.data(using: String.Encoding.utf8, allowLossyConversion: false)!
         let documentDirectoryUrl = try! FileManager.default.url(
-           for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
+            for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true
         )
         let fileUrl = documentDirectoryUrl.appendingPathComponent(fileName).appendingPathExtension("txt")
         // prints the file path
@@ -225,11 +222,11 @@ open class CTAudit {
                 
             }
             
-        }else{
+        } else{
             do {
-               try data.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
+                try data.write(to: fileUrl, atomically: true, encoding: String.Encoding.utf8)
             } catch let error as NSError {
-               print (error)
+                print (error)
             }
         }
     }

@@ -49,8 +49,8 @@
 			isa = PBXGroup;
 			children = (
 				77A4AEF824E3E3D800F93D24 /* CTiOSAudit.h */,
-				77A4AEF924E3E3D800F93D24 /* Info.plist */,
 				77A4AF0024E3E3E800F93D24 /* CTAudit.swift */,
+				77A4AEF924E3E3D800F93D24 /* Info.plist */,
 			);
 			path = CTiOSAudit;
 			sourceTree = "<group>";
