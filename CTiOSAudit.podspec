@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   spec.author        = { "jaymehta" => "jaysmehta91@gmail.com@example.com" }
   spec.source        = { :git => "https://github.com/jaysmehta/CTiOSAudit.git", :tag => "#{spec.version}" }
    
-  spec.ios.deployment_target  = '11.0'
+  spec.ios.deployment_target  = '10.0'
   
   spec.source_files  = "CTiOSAudit/*.{swift}"
   spec.swift_version = '5.1'
