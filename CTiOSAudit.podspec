@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
   
   spec.name          = "CTiOSAudit"
   spec.version       = "1.0.5"
-  spec.summary       = "A cocoapods libraray written in swift"
+  spec.summary       = "A cocoapods library written in swift"
   spec.homepage      = "https://github.com/jaysmehta/CTiOSAudit"
   spec.license       = { :type => "MIT", :file => "FILE_LICENSE" }
   spec.author        = { "jaymehta" => "jaysmehta91@gmail.com@example.com" }
@@ -18,7 +18,7 @@ Pod::Spec.new do |spec|
    
   spec.ios.deployment_target  = '11.0'
   
-  spec.source_files  = "CTiOSAudit/*.{swift,mlmodel}"
+  spec.source_files  = "CTiOSAudit/*.{swift}"
   spec.swift_version = '5.1'
   
 end
