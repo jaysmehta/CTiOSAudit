@@ -10,18 +10,18 @@ import Foundation
 
 open class CTAudit {
     
-    var chckSDKVersion = true ,chckCTID = true, onUserLogin = false, chckAutoIntegrate = true, chckInitialisation = true, checkIdentity = true, chckPN = true
+    var chckSDKVersion = true, chckCTID = true, onUserLogin = false, chckAutoIntegrate = true, chckInitialisation = true, checkIdentity = true, chckPN = true
     var eventsData : [[String : AnyObject]] = [[:]]
     var profileDetailsArray : [String : AnyObject] = [:]
     
-    public init(){
+    public init() {
         if let documentsPathString = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first {
             let logPath = documentsPathString.appending("/app.txt")
             freopen(logPath.cString(using: String.Encoding.ascii),"a+",stderr)
         }
     }
     
-    public func startAudit(){
+    public func startAudit() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 60.0, execute: {
             self.getDataLogs()
         })
@@ -36,15 +36,15 @@ open class CTAudit {
                 let arrayOfLines =  savedText.components(separatedBy: .newlines)
                 let filteredArray = arrayOfLines.filter {$0.contains("[CleverTap]:")}
                 writeDataToFile(data: "AUDIT REPORT\n\n")
-                pasrseLogs(dataLogs: filteredArray)
+                parseLogs(dataLogs: filteredArray)
                 
-                if profileDetailsArray.count > 1{
+                if profileDetailsArray.count > 1 {
                     if onUserLogin{
                         writeDataToFile(data: "***PROFILE DETAILS PASSED WITH ONUSERLOGIN***\n")
-                        writeProfileDeatilsToFile()
+                        writeProfileDetailsToFile()
                     }else{
                         writeDataToFile(data: "***PROFILE DETAILS PASSED WITH PUSHPROFILE***\n")
-                        writeProfileDeatilsToFile()
+                        writeProfileDetailsToFile()
                     }
                 }
                 
@@ -58,48 +58,46 @@ open class CTAudit {
         }
     }
     
-    func pasrseLogs(dataLogs : [String]){
-        
+    func parseLogs(dataLogs : [String]) {
         eventsData.removeAll()
         for logs in dataLogs{
             if logs.contains("Auto Integration enabled"){
-                if chckAutoIntegrate{
+                if chckAutoIntegrate {
                     chckAutoIntegrate = false
                     let tempArr = logs.components(separatedBy: "[CleverTap]: ")
                     let strTemp = "\(tempArr[1])\n\n"
                     writeDataToFile(data: "***AUTO INTEGRATE***\n")
                     writeDataToFile(data: strTemp)
                 }
-            }else if logs.contains("Initializing"){
-                if chckInitialisation{
+            }else if logs.contains("Initializing") {
+                if chckInitialisation {
                     chckInitialisation = false
                     checkForSDKInitialise(dataLogs: logs)
                 }
             }else if logs.contains("registering APNs device token"){
-                if chckPN{
+                if chckPN {
                     chckPN = false
                     checkForPN(dataLogs: logs)
                 }
-            }else if logs.contains("onUserLogin"){
-                if checkIdentity{
+            }else if logs.contains("onUserLogin") {
+                if checkIdentity {
                     checkIdentity = false
                     onUserLogin = true
                     writeDataToFile(data: "***IDENTITY MANAGEMENT***\n")
                     writeDataToFile(data: "onUserLogin() method is used to push profile details\n\n")
                 }
-            }else if logs.contains("Sending"){
-                if(chckSDKVersion && chckCTID){
+            }else if logs.contains("Sending") {
+                if(chckSDKVersion && chckCTID) {
                     checkForEventData(dataLogs: logs)
                     checkForMetaData(dataLogs: logs)
                 }else{
                     checkForEventData(dataLogs: logs)
                 }
-                
             }
         }
     }
     
-    func checkForPN(dataLogs : String){
+    func checkForPN(dataLogs : String) {
         let tempArr = dataLogs.components(separatedBy: "token ")
         let strTemp = "\(tempArr[1])\n\n"
         writeDataToFile(data: "***Push Token Generated***\n")
@@ -113,7 +111,7 @@ open class CTAudit {
         writeDataToFile(data: strTemp)
     }
     
-    func checkForMetaData(dataLogs : String){
+    func checkForMetaData(dataLogs : String) {
         let tempArr = dataLogs.components(separatedBy: "Sending ")
         let tempArr2 = tempArr[1].components(separatedBy: " to")
         let jsonDataMeta = convertStringToDictionary(text:tempArr2[0].dropFirst().dropLast().components(separatedBy: ",{")[0])
@@ -124,7 +122,6 @@ open class CTAudit {
         writeDataToFile(data: strTemp)
         
     }
-    
     
     func convertStringToDictionary(text: String) -> [String:AnyObject]? {
         if let data = text.data(using: .utf8) {
@@ -138,11 +135,11 @@ open class CTAudit {
         return nil
     }
     
-    func checkForEventData(dataLogs : String){
+    func checkForEventData(dataLogs : String) {
         let tempArr = dataLogs.components(separatedBy: "Sending ")
         let tempArr2 = tempArr[1].components(separatedBy: " to")
         let tempArr3 = tempArr2[0].dropFirst().dropLast().components(separatedBy: ",{")
-        if tempArr3.count > 2{
+        if tempArr3.count > 2 {
             for n in 1...tempArr3.count-1 {
                 let strTemp = tempArr2[0].dropFirst().dropLast().components(separatedBy: ",{")[n]
                 let mutableStr = NSMutableString(string: strTemp)
@@ -151,19 +148,16 @@ open class CTAudit {
                 checkForEvents(dataLogs: jsonDataEvent)
             }
             
-        }else{
+        }else {
             let strTemp = tempArr2[0].dropFirst().dropLast().components(separatedBy: ",{")[1]
             let mutableStr = NSMutableString(string: strTemp)
             mutableStr .insert("{", at: 0)
             let jsonDataEvent = convertStringToDictionary(text: mutableStr as String)
             checkForEvents(dataLogs: jsonDataEvent)
         }
-        
-        
-        
     }
     
-    func checkForEvents(dataLogs : [String:AnyObject]?){
+    func checkForEvents(dataLogs : [String:AnyObject]?) {
         if dataLogs?["type"] as! String == "profile" {
             let tempArr = dataLogs?["profile"] as! [String:AnyObject]
             profileDetailsArray.removeAll()
@@ -188,7 +182,7 @@ open class CTAudit {
         
     }
     
-    func writeProfileDeatilsToFile(){
+    func writeProfileDetailsToFile() {
         for (key,value) in profileDetailsArray{
             let strTemp = "\(key) : \(value)\n"
             writeDataToFile(data: strTemp)
