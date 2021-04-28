@@ -15,7 +15,7 @@ Then run `pod install`
 ## Integration
 
 1. `import CTiOSAudit` module in your AppDelegate class. 
-2. Initialise the SDK and call start Audit method before autoIntegrate() method.
+2. Initialise the SDK and call `startAudit()` method before CleverTap iOS `autoIntegrate()` method.
 
 ```swift
 let ctAudit = CTAudit()
