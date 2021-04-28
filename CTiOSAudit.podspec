@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
   
   spec.name          = "CTiOSAudit"
-  spec.version       = "1.0.4"
+  spec.version       = "1.0.5"
   spec.summary       = "A cocoapods libraray written in swift"
   spec.homepage      = "https://github.com/jaysmehta/CTiOSAudit"
   spec.license       = { :type => "MIT", :file => "FILE_LICENSE" }
