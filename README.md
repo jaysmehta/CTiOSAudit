@@ -1,17 +1,24 @@
-# CTiOSAudit
+# CT iOS Audit Tool 
 
-Install using cocoapods
+## Installation using CocoaPods
 
+For your iOS app, add the following to your Podfile:
+
+```
 target 'YOUR_TARGET_NAME' do
 pod 'CTiOSAudit'
 end
+```
 
-Then run pod install
+Then run `pod install`
 
-import CTiOSAudit module in AppDelegate file. Initialise the SDK and call start Audit method before autoIntegrate() method.
+## Integration
 
+1. `import CTiOSAudit` module in your AppDelegate class. 
+2. Initialise the SDK and call start Audit method before autoIntegrate() method.
+
+```swift
 let ctAudit = CTAudit()
-
 ctAudit.startAudit()
-
-Run the app, a text file with audit results will be generated on the path mentioned in the logs
+```
+3. Run your app, a text file with audit results will be generated on the path mentioned in the deubg logs.
