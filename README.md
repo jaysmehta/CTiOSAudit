@@ -21,4 +21,4 @@ Then run `pod install`
 let ctAudit = CTAudit()
 ctAudit.startAudit()
 ```
-3. Run your app, a text file with audit results will be generated on the path mentioned in the deubg logs.
+3. Run your app, a text file with audit results will be generated on the path mentioned in the debug logs.
