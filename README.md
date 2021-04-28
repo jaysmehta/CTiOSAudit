@@ -6,7 +6,7 @@ For your iOS app, add the following to your Podfile:
 
 ```
 target 'YOUR_TARGET_NAME' do
-pod 'CTiOSAudit'
+   pod 'CTiOSAudit'
 end
 ```
 
